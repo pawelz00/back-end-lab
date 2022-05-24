@@ -1,0 +1,5 @@
+curl http://localhost:8080/api/users
+curl -i http://localhost:8080/api/users
+curl -X POST http://localhost:8080/api/user/create -H 'Content-Type: application/json' -d '{"name":"test test","email":"test.test@email.com"}'
+curl -X DELETE http://localhost:8080/api/users/1/remove -H "Accept: application/json"
+curl http://localhost:8080/api/users/0 -H "Accept: application/json"
