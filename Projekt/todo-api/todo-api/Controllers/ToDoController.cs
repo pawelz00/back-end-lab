@@ -1,36 +1,40 @@
-﻿namespace todo_api.Controllers
+﻿using todo_api.Services;
+
+namespace todo_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly DataContext _context;
-        public ToDoController(DataContext context)
-        {
-            _context = context;
+        private readonly IToDoService service;
+        public ToDoController(IToDoService service)
+        { 
+             this.service = service;
         }
 
         [HttpGet("{id}")]
         public ActionResult<ToDo> Get(int id)
         {
-            var todo = _context.Todos.Find(id);
+            var todo = service.GetTodoById(id);
             if (todo == null)
                 return BadRequest("Not found this todo.");
             return Ok(todo);
         }
         [HttpGet]
-        public ActionResult<ToDo> Get()
+        public ActionResult<List<ToDo>> Get()
         {
-            return Ok(_context.Todos.ToList());
+            var list = service.GetTodos();
+            if (list is null)
+                return BadRequest("There are no todos.");
+            return Ok(list);
         }
         [HttpPost("add")]
         public ActionResult<ToDo> AddTodo(ToDo toDo)
         {
             if (toDo == null)
                 return BadRequest("Wrong!");
-            _context.Todos.Add(toDo);
-            _context.SaveChanges();
-            return Ok(toDo);
+            service.CreateTodo(toDo);
+            return Ok(service.GetTodos());
         }
         
         //[HttpPut]

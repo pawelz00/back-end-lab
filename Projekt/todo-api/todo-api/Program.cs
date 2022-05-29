@@ -2,9 +2,11 @@ global using todo_api.Data;
 global using Microsoft.EntityFrameworkCore;
 global using todo_api.Models;
 global using Microsoft.AspNetCore.Mvc;
+using todo_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
 {
