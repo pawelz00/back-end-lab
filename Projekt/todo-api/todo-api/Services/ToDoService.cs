@@ -32,5 +32,17 @@
             _context.Todos.Remove(todo);
             _context.SaveChanges();
         }
+
+        public ToDo UpdateTodo(ToDo todo)
+        {
+            var td = GetTodoById(todo.Id);
+            if (td == null)
+                return null;
+            td.Name = todo.Name;
+            td.Created = todo.Created;
+            td.Description = todo.Description;
+            _context.SaveChanges();
+            return td;
+        }
     }
 }

@@ -36,26 +36,23 @@ namespace todo_api.Controllers
             service.CreateTodo(toDo);
             return Ok(service.GetTodos());
         }
-        
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateTodo(ToDo request)
-        //{
-        //    var td = todos.Find(t => t.Id == request.Id);
-        //    if(td == null)
-        //        return BadRequest("Todo not found");
-        //    td.Name = request.Name;
-        //    td.Description = request.Description;
-        //    return Ok(todos);
-        //}
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    var td = todos.Find(t => t.Id == id);
-        //    if (td == null)
-        //        return BadRequest("Todo not found");
-        //    todos.Remove(td);
-        //    return Ok(todos);
-        //}
+        [HttpPut]
+        public ActionResult UpdateTodo(ToDo toDo)
+        {
+            var todo = service.UpdateTodo(toDo);
+            if (todo is null)
+                return NotFound("Todo not found!");
+            return Ok("Updated!");
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteTodo(int id)
+        {
+            service.DeleteTodo(id);
+            if (service.GetTodoById(id) is null)
+                return Ok("Succesfully deleted!");
+            return BadRequest("Something's wrong");
+        }
     }
 }

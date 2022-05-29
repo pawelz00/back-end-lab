@@ -7,5 +7,6 @@ namespace todo_api.Services
         void DeleteTodo(int id);
         ToDo GetTodoById(int id);
         List<ToDo> GetTodos();
+        ToDo UpdateTodo(ToDo todo);
     }
 }
