@@ -38,12 +38,12 @@ namespace todo_api.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateTodo(ToDo toDo)
+        public ActionResult<ToDo> UpdateTodo(ToDo toDo)
         {
             var todo = service.UpdateTodo(toDo);
             if (todo is null)
                 return NotFound("Todo not found!");
-            return Ok("Updated!");
+            return Ok(todo);
         }
 
         [HttpDelete("{id}")]
