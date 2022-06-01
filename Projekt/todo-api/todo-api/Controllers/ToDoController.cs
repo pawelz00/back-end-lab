@@ -1,4 +1,5 @@
-﻿using todo_api.Services;
+﻿using todo_api.Dto;
+using todo_api.Services;
 
 namespace todo_api.Controllers
 {
@@ -13,15 +14,15 @@ namespace todo_api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ToDo> Get(int id)
+        public ActionResult<ToDoDto> Get(int id)
         {
             var todo = service.GetTodoById(id);
             if (todo == null)
                 return BadRequest("Not found this todo.");
-            return Ok(todo);
+            return Ok(todo.AsDto());
         }
         [HttpGet]
-        public ActionResult<List<ToDo>> Get()
+        public ActionResult<List<ToDoDto>> Get()
         {
             var list = service.GetTodos();
             if (list is null)
@@ -29,18 +30,25 @@ namespace todo_api.Controllers
             return Ok(list);
         }
         [HttpPost("add")]
-        public ActionResult<ToDo> AddTodo(ToDo toDo)
+        public ActionResult<ToDoDto> AddTodo(CreateToDoDto toDo)
         {
             if (toDo == null)
                 return BadRequest("Wrong!");
-            service.CreateTodo(toDo);
+            service.CreateTodo(new ToDo()
+            {
+                Name = toDo.Name,
+                Description = toDo.Description,
+                Created = DateTime.UtcNow
+            }
+            );
             return Ok(service.GetTodos());
         }
 
         [HttpPut]
-        public ActionResult<ToDo> UpdateTodo(ToDo toDo)
+        public ActionResult<ToDoDto> UpdateTodo(UpdateToDoDto toDo)
         {
-            var todo = service.UpdateTodo(toDo);
+            var todo = new ToDo() { Id = toDo.Id, Name = toDo.Name, Description = toDo.Description, Created = DateTime.UtcNow };
+            todo = service.UpdateTodo(todo);
             if (todo is null)
                 return NotFound("Todo not found!");
             return Ok(todo);
