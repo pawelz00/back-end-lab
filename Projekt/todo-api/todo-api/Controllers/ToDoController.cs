@@ -7,60 +7,76 @@ namespace todo_api.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly IToDoService service;
-        public ToDoController(IToDoService service)
+        private readonly IToDoService todoservice;
+        public ToDoController(IToDoService todoservice)
         { 
-             this.service = service;
+            this.todoservice = todoservice;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ToDoDto> Get(int id)
+        [ProducesResponseType(200, Type = typeof(ToDoDto))]
+        [ProducesResponseType(400)]
+        public IActionResult GetTodo(int id)
         {
-            var todo = service.GetTodoById(id);
-            if (todo == null)
-                return BadRequest("Not found this todo.");
-            return Ok(todo.AsDto());
+            if (!todoservice.TodoExists(id))
+                return NotFound();
+
+            var todo = new ToDoDto(todoservice.GetTodo(id));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(todo);
+            
         }
         [HttpGet]
-        public ActionResult<List<ToDoDto>> Get()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ToDoDto>))]
+        public IActionResult GetTodos()
         {
-            var list = service.GetTodos();
-            if (list is null)
-                return BadRequest("There are no todos.");
-            return Ok(list);
-        }
-        [HttpPost("add")]
-        public ActionResult<ToDoDto> AddTodo(CreateToDoDto toDo)
-        {
-            if (toDo == null)
-                return BadRequest("Wrong!");
-            service.CreateTodo(new ToDo()
+            var list = todoservice.GetTodos();
+            var listDto = new List<ToDoDto>();
+            foreach (var todo in list)
             {
-                Name = toDo.Name,
-                Description = toDo.Description,
-                Created = DateTime.UtcNow
+                listDto.Add(new ToDoDto(todo));
             }
-            );
-            return Ok(service.GetTodos());
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            return Ok(listDto);
         }
 
-        [HttpPut]
-        public ActionResult<ToDoDto> UpdateTodo(UpdateToDoDto toDo)
-        {
-            var todo = new ToDo() { Id = toDo.Id, Name = toDo.Name, Description = toDo.Description, Created = DateTime.UtcNow };
-            todo = service.UpdateTodo(todo);
-            if (todo is null)
-                return NotFound("Todo not found!");
-            return Ok(todo);
-        }
+        //[HttpPost("add")]
+        //public ActionResult<ToDoDto> AddTodo(CreateToDoDto toDo)
+        //{
+        //    if (toDo == null)
+        //        return BadRequest("Wrong!");
+        //    service.CreateTodo(new ToDo()
+        //    {
+        //        Name = toDo.Name,
+        //        Description = toDo.Description,
+        //        Created = DateTime.UtcNow,
+        //        Priority = priorityservice.GetPriority(toDo.PriorityId)
+        //    }
+        //    );
+        //    return Ok(service.GetTodos());
+        //}
 
-        [HttpDelete("{id}")]
-        public ActionResult DeleteTodo(int id)
-        {
-            service.DeleteTodo(id);
-            if (service.GetTodoById(id) is null)
-                return Ok("Succesfully deleted!");
-            return BadRequest("Something's wrong");
-        }
+        //[HttpPut]
+        //public ActionResult<ToDoDto> UpdateTodo(UpdateToDoDto toDo)
+        //{
+        //    var todo = new ToDo() { Id = toDo.Id, Name = toDo.Name, Description = toDo.Description, Created = DateTime.UtcNow };
+        //    todo = service.UpdateTodo(todo);
+        //    if (todo is null)
+        //        return NotFound("Todo not found!");
+        //    return Ok(todo);
+        //}
+
+        //[HttpDelete("{id}")]
+        //public ActionResult DeleteTodo(int id)
+        //{
+        //    service.DeleteTodo(id);
+        //    if (service.GetTodoById(id) is null)
+        //        return Ok("Succesfully deleted!");
+        //    return BadRequest("Something's wrong");
+        //}
     }
 }

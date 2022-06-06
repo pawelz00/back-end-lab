@@ -7,6 +7,8 @@ using todo_api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IToDoService, ToDoService>();
+builder.Services.AddScoped<IPriorityService, PriorityService>();
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
 {
