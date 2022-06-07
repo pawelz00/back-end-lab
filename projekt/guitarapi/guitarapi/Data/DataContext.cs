@@ -5,18 +5,13 @@ namespace guitarapi.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options):base(options)
-        {
-
-        }
-
+        public DataContext(DbContextOptions<DataContext> options):base(options) { }
         public DbSet<GuitarType> GuitarTypes { get; set; }
         public DbSet<Producer> Producers { get; set; }
         public DbSet<Strings> Strings { get; set; }
         public DbSet<Guitar> Guitars { get; set; }
         public DbSet<Guitarist> Guitarists { get; set; }
         public DbSet<GuitaristGuitar> GuitaristsGuitars { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ToDo many to many relationship (Guitars <=> Guitarist)

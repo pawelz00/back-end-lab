@@ -1,4 +1,5 @@
 ﻿using guitarapi.Models;
+using System.Text.Json.Serialization;
 
 namespace guitarapi.Dto
 {

@@ -1,4 +1,5 @@
 ﻿using guitarapi.Dto;
+using guitarapi.Models;
 using guitarapi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,5 +33,29 @@ namespace guitarapi.Controllers
 
             return Ok(producersDto);
         }
+        [HttpPost]
+        [Route("api/producers")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateProducer([FromBody] ProducerDto p)
+        {
+            if(p == null)
+                return BadRequest(ModelState);
+
+            var producerexists = producerService.GetProducers().Where(p => p.Name.Trim().ToUpper() == p.Name.Trim().ToUpper()).FirstOrDefault();
+
+            if (producerexists != null)
+                return StatusCode(422, "Failed, producer already exists in the database!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var producer = producerService.CreateProducer(new Producer { Id = p.Id, Name = p.Name});
+
+            //var producerDto = new ProducerDto(producer);
+
+            return Ok("Created!");
+        }
+
     }
 }

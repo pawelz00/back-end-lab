@@ -12,6 +12,13 @@ namespace guitarapi.Services
             _context = context;
         }
 
+        public Guitar CreateGuitar(Guitar guitar)
+        {
+            _context.Guitars.Add(guitar);
+            _context.SaveChanges();
+            return guitar;
+        }
+
         public Guitar GetGuitar(int id)
         {
             return _context.Guitars.Where(g => g.Id == id).Include(p => p.Producer).Include(s => s.Strings).Include(gt => gt.Type).FirstOrDefault();
@@ -30,7 +37,8 @@ namespace guitarapi.Services
 
         public ICollection<Guitar> GetGuitarsByType(string name)
         {
-            throw new NotImplementedException();
+            // TODO
+            throw new Exception();
         }
 
         public bool GuitarExists(int id)

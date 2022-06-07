@@ -70,5 +70,23 @@ namespace guitarapi.Controllers
 
             return Ok(guitarsDto);
         }
+
+        [HttpPost]
+        public IActionResult CreateGuitar([FromBody]CreateGuitarDto guitar)
+        {
+            if (guitar == null)
+                return BadRequest(ModelState);
+
+            guitarService.CreateGuitar(new Guitar
+            {
+                Name = guitar.Name,
+                ReleaseDate = guitar.ReleaseDate,
+                ProducerId = guitar.ProducerId,
+                TypeId = guitar.TypeId,
+                StringsId = guitar.StringsId
+            });
+
+            return Ok("Guitar Created!");
+        }
     }
 }

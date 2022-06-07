@@ -1,9 +1,13 @@
 ﻿using guitarapi.Models;
+using System.Text.Json.Serialization;
 
 namespace guitarapi.Dto
 {
     public class ProducerDto
     {
+        [JsonConstructor]
+        public ProducerDto() { }
+
         public ProducerDto(Producer producer)
         {
             Id = producer.Id;
