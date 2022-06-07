@@ -57,6 +57,41 @@ namespace guitarapi.Migrations
                     b.ToTable("Guitars");
                 });
 
+            modelBuilder.Entity("guitarapi.Models.Guitarist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Guitarists");
+                });
+
+            modelBuilder.Entity("guitarapi.Models.GuitaristGuitar", b =>
+                {
+                    b.Property<int>("GuitarId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GuitaristId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GuitarId", "GuitaristId");
+
+                    b.HasIndex("GuitaristId");
+
+                    b.ToTable("GuitaristsGuitars");
+                });
+
             modelBuilder.Entity("guitarapi.Models.GuitarType", b =>
                 {
                     b.Property<int>("Id")
@@ -234,6 +269,35 @@ namespace guitarapi.Migrations
                     b.Navigation("Strings");
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("guitarapi.Models.GuitaristGuitar", b =>
+                {
+                    b.HasOne("guitarapi.Models.Guitar", "Guitar")
+                        .WithMany("GuitaristsGuitars")
+                        .HasForeignKey("GuitarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("guitarapi.Models.Guitarist", "Guitarist")
+                        .WithMany("GuitaristsGuitars")
+                        .HasForeignKey("GuitaristId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Guitar");
+
+                    b.Navigation("Guitarist");
+                });
+
+            modelBuilder.Entity("guitarapi.Models.Guitar", b =>
+                {
+                    b.Navigation("GuitaristsGuitars");
+                });
+
+            modelBuilder.Entity("guitarapi.Models.Guitarist", b =>
+                {
+                    b.Navigation("GuitaristsGuitars");
                 });
 
             modelBuilder.Entity("guitarapi.Models.GuitarType", b =>

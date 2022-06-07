@@ -1,6 +1,6 @@
+global using Microsoft.EntityFrameworkCore;
 using guitarapi.Data;
 using guitarapi.Services;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,7 @@ builder.Services.AddScoped<IGuitarService, GuitarService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
 builder.Services.AddScoped<IStringsService, StringsService>();
 builder.Services.AddScoped<IGuitarTypeService, GuitarTypeService>();
+builder.Services.AddScoped<IGuitaristService, GuitaristService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>

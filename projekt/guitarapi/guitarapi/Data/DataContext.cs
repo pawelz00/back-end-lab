@@ -14,10 +14,22 @@ namespace guitarapi.Data
         public DbSet<Producer> Producers { get; set; }
         public DbSet<Strings> Strings { get; set; }
         public DbSet<Guitar> Guitars { get; set; }
+        public DbSet<Guitarist> Guitarists { get; set; }
+        public DbSet<GuitaristGuitar> GuitaristsGuitars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ToDo many to many relationship (Guitars <=> Guitarist)
+            modelBuilder.Entity<GuitaristGuitar>()
+                .HasKey(gg => new { gg.GuitarId, gg.GuitaristId });
+            modelBuilder.Entity<GuitaristGuitar>()
+                .HasOne(g => g.Guitar)
+                .WithMany(gg => gg.GuitaristsGuitars)
+                .HasForeignKey(g => g.GuitarId);
+            modelBuilder.Entity<GuitaristGuitar>()
+                .HasOne(g => g.Guitarist)
+                .WithMany(gg => gg.GuitaristsGuitars)
+                .HasForeignKey(g => g.GuitaristId);
 
             modelBuilder.Entity<Strings>().HasData(
                 new Strings

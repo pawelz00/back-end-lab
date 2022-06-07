@@ -11,5 +11,6 @@
         public virtual Strings Strings { get; set; }
         public int ProducerId { get; set; }
         public virtual Producer Producer { get; set; }
+        public ICollection<GuitaristGuitar> GuitaristsGuitars { get; set; }
     }
 }

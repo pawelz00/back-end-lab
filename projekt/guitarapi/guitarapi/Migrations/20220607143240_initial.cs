@@ -10,6 +10,20 @@ namespace guitarapi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Guitarists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Guitarists", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GuitarTypes",
                 columns: table => new
                 {
@@ -83,6 +97,30 @@ namespace guitarapi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GuitaristsGuitars",
+                columns: table => new
+                {
+                    GuitarId = table.Column<int>(type: "int", nullable: false),
+                    GuitaristId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuitaristsGuitars", x => new { x.GuitarId, x.GuitaristId });
+                    table.ForeignKey(
+                        name: "FK_GuitaristsGuitars_Guitarists_GuitaristId",
+                        column: x => x.GuitaristId,
+                        principalTable: "Guitarists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GuitaristsGuitars_Guitars_GuitarId",
+                        column: x => x.GuitarId,
+                        principalTable: "Guitars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "GuitarTypes",
                 columns: new[] { "Id", "Name" },
@@ -124,6 +162,11 @@ namespace guitarapi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_GuitaristsGuitars_GuitaristId",
+                table: "GuitaristsGuitars",
+                column: "GuitaristId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Guitars_ProducerId",
                 table: "Guitars",
                 column: "ProducerId");
@@ -141,6 +184,12 @@ namespace guitarapi.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "GuitaristsGuitars");
+
+            migrationBuilder.DropTable(
+                name: "Guitarists");
+
             migrationBuilder.DropTable(
                 name: "Guitars");
 

@@ -1,6 +1,5 @@
 ﻿using guitarapi.Data;
 using guitarapi.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace guitarapi.Services
 {
@@ -22,11 +21,12 @@ namespace guitarapi.Services
         {
             return _context.Guitars.OrderBy(g => g.Id).Include(p => p.Producer).Include(s => s.Strings).Include(gt => gt.Type).ToList();
         }
-
+        //
         public ICollection<Guitar> GetGuitarsByProducer(string name)
         {
-            throw new NotImplementedException();
+            return _context.Guitars.Include(p => p.Producer).Include(s => s.Strings).Include(gt => gt.Type).Where(p => p.Producer.Name == name).ToList();
         }
+        //
 
         public ICollection<Guitar> GetGuitarsByType(string name)
         {
