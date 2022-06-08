@@ -28,17 +28,14 @@ namespace guitarapi.Services
         {
             return _context.Guitars.OrderBy(g => g.Id).Include(p => p.Producer).Include(s => s.Strings).Include(gt => gt.Type).ToList();
         }
-        //
         public ICollection<Guitar> GetGuitarsByProducer(string name)
         {
             return _context.Guitars.Include(p => p.Producer).Include(s => s.Strings).Include(gt => gt.Type).Where(p => p.Producer.Name == name).ToList();
         }
-        //
 
         public ICollection<Guitar> GetGuitarsByType(string name)
         {
-            // TODO
-            throw new Exception();
+            return _context.Guitars.Include(p => p.Producer).Include(s => s.Strings).Include(gt => gt.Type).Where(p => p.Type.Name == name).ToList();
         }
 
         public bool GuitarExists(int id)

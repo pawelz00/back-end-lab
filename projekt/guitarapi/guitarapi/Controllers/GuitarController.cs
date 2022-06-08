@@ -71,6 +71,27 @@ namespace guitarapi.Controllers
             return Ok(guitarsDto);
         }
 
+        [HttpGet("type/{type}")]
+        public IActionResult GetGuitarsByType(string type)
+        {
+
+            var guitars = guitarService.GetGuitarsByType(type);
+            var guitarsDto = new List<GuitarDto>();
+
+            foreach (var item in guitars)
+            {
+                guitarsDto.Add(new GuitarDto(item));
+            }
+
+            if (guitarsDto.Count == 0)
+                return NotFound("There are no guitars that match this type.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(guitarsDto);
+        }
+
         [HttpPost]
         public IActionResult CreateGuitar([FromBody]CreateGuitarDto guitar)
         {
