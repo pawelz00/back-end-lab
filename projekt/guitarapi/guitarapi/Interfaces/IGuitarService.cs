@@ -8,8 +8,10 @@ namespace guitarapi.Services
         ICollection<Guitar> GetGuitars();
         ICollection<Guitar> GetGuitarsByProducer(string name);
         ICollection<Guitar> GetGuitarsByType(string name);
-        Guitar CreateGuitar(Guitar guitar);
+        bool CreateGuitar(Guitar guitar);
         bool GuitarExists(int id);
+        bool DeleteGuitar(Guitar guitar);
+        bool CheckIfProducerAndTypeAndStringsExists(int producerId, int stringsId, int typeId);
 
     }
 }

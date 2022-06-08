@@ -77,5 +77,22 @@ namespace guitarapi.Controllers
 
             return Ok("Succesfully created the guitarist.");
         }
+
+        [HttpDelete("api/guitarists/{id}")]
+        public IActionResult DeleteGuitarist(int id)
+        {
+            if (!guitaristService.GuitaristExists(id))
+                return NotFound();
+
+            var guitarist = guitaristService.GetGuitarist(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!guitaristService.DeleteGuitarist(guitarist))
+                return BadRequest("Something went wrong");
+
+            return NoContent();
+        }
     }
 }

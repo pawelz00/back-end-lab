@@ -37,12 +37,12 @@ namespace guitarapi.Controllers
         [Route("api/producers")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateProducer([FromBody] ProducerDto p)
+        public IActionResult CreateProducer([FromBody] CreateProducerDto producerdto)
         {
-            if(p == null)
+            if(producerdto == null)
                 return BadRequest(ModelState);
 
-            var producerexists = producerService.GetProducers().Where(p => p.Name.Trim().ToUpper() == p.Name.Trim().ToUpper()).FirstOrDefault();
+            var producerexists = producerService.GetProducers().Where(p => p.Name.Trim().ToUpper() == producerdto.Name.Trim().ToUpper()).FirstOrDefault();
 
             if (producerexists != null)
                 return StatusCode(422, "Failed, producer already exists in the database!");
@@ -50,11 +50,26 @@ namespace guitarapi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
-            var producer = producerService.CreateProducer(new Producer { Id = p.Id, Name = p.Name});
-
-            //var producerDto = new ProducerDto(producer);
+            var producer = producerService.CreateProducer(new Producer {Name = producerdto.Name});
 
             return Ok("Created!");
+        }
+
+        [HttpDelete("api/producers/{id}")]
+        public IActionResult DeleteProducer(int id)
+        {
+            if (!producerService.ProducerExists(id))
+                return NotFound();
+
+            var producer = producerService.GetProducer(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!producerService.DeleteProducer(producer))
+                return BadRequest("Something went wrong");
+
+            return NoContent();
         }
 
     }

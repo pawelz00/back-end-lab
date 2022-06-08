@@ -98,6 +98,11 @@ namespace guitarapi.Controllers
             if (guitar == null)
                 return BadRequest(ModelState);
 
+            var checkCorrectness = guitarService.CheckIfProducerAndTypeAndStringsExists(guitar.ProducerId, guitar.StringsId, guitar.TypeId);
+
+            if (checkCorrectness == false)
+                return BadRequest("Bad ProducerId or TypeId or StringsId.");
+
             guitarService.CreateGuitar(new Guitar
             {
                 Name = guitar.Name,
@@ -108,6 +113,23 @@ namespace guitarapi.Controllers
             });
 
             return Ok("Guitar Created!");
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteGuitar(int id)
+        {
+            if (!guitarService.GuitarExists(id))
+                return NotFound();
+
+            var guitar = guitarService.GetGuitar(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!guitarService.DeleteGuitar(guitar))
+                return BadRequest("Something went wrong");
+
+            return NoContent();
         }
     }
 }

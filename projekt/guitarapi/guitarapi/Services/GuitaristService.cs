@@ -29,6 +29,14 @@ namespace guitarapi.Services
 
         }
 
+        public bool DeleteGuitarist(Guitarist guitarist)
+        {
+            _context.Guitarists.Remove(guitarist);
+            if (_context.SaveChanges() > 0)
+                return true;
+            return false;
+        }
+
         public Guitarist GetGuitarist(int id)
         {
             return _context.Guitarists.Include(g => g.GuitaristsGuitars).ThenInclude(g => g.Guitar).FirstOrDefault(g => g.Id == id);

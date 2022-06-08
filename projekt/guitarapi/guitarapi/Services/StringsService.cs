@@ -15,5 +15,10 @@ namespace guitarapi.Services
         {
             return _context.Strings.OrderBy(s => s.Id).ToList();
         }
+
+        public bool StringsExists(int id)
+        {
+            return _context.Strings.Any(s => s.Id == id);
+        }
     }
 }

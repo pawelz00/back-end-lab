@@ -16,5 +16,10 @@ namespace guitarapi.Services
         {
             return _context.GuitarTypes.OrderBy(g => g.Id).ToList();
         }
+
+        public bool TypeExists(int id)
+        {
+            return _context.GuitarTypes.Any(g => g.Id == id);
+        }
     }
 }
