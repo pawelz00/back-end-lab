@@ -67,5 +67,24 @@ namespace guitarapi.Services
                 return false;
             return true;
         }
+
+        public bool UpdateGuitar(Guitar guitar)
+        {
+            using (var db = _context)
+            {
+                var result = db.Guitars.SingleOrDefault(g => g.Id == guitar.Id);
+                if (result != null)
+                {
+                    result.Name = guitar.Name;
+                    result.ReleaseDate = guitar.ReleaseDate;
+                    result.ProducerId = guitar.ProducerId;
+                    result.StringsId = guitar.StringsId;
+                    result.TypeId = guitar.TypeId;
+                    if (db.SaveChanges() > 0)
+                        return true;
+                }
+                return false;
+            }
+        }
     }
 }

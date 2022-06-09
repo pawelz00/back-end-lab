@@ -1,4 +1,6 @@
-﻿namespace guitarapi.Models
+﻿using guitarapi.Dto;
+
+namespace guitarapi.Models
 {
     public class Guitar
     {

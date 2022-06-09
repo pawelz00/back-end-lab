@@ -5,9 +5,10 @@ namespace guitarapi.Services
     public interface IProducerService
     {
         ICollection<Producer> GetProducers();
-        bool CreateProducer(Producer producer);
         Producer GetProducer(int id);
+        bool CreateProducer(Producer producer);
         bool DeleteProducer(Producer producer);
+        bool UpdateProducer(Producer producer);
         bool ProducerExists(int id);
     }
 }

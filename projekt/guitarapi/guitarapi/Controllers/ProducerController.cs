@@ -72,5 +72,33 @@ namespace guitarapi.Controllers
             return NoContent();
         }
 
+        [HttpPut("api/producers/{id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateProducer(int id, [FromBody]CreateProducerDto updatedProducer)
+        {
+            if (updatedProducer == null)
+                return BadRequest(ModelState);
+
+            var nameExists = producerService.GetProducers().Where(p => p.Name.Trim().ToUpper() == updatedProducer.Name.Trim().ToUpper()).FirstOrDefault();
+
+            if (nameExists != null)
+                return StatusCode(422, "Failed, producer already exists in the database!");
+
+            if (!producerService.ProducerExists(id))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var producer = new Producer() { Id = id, Name = updatedProducer.Name };
+
+            if (!producerService.UpdateProducer(producer))
+                return StatusCode(500, ModelState);
+
+            return NoContent();
+        }
+
     }
 }

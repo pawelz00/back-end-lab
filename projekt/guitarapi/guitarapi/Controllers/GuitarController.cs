@@ -131,5 +131,37 @@ namespace guitarapi.Controllers
 
             return NoContent();
         }
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateGuitar([FromBody]UpdateGuitarDto updatedGuitar)
+        {
+            if (updatedGuitar == null)
+                return BadRequest(ModelState);
+
+            var nameExists = guitarService.GetGuitars().Where(p => p.Name.Trim().ToUpper() == updatedGuitar.Name.Trim().ToUpper()).FirstOrDefault();
+
+            if (nameExists != null)
+                return StatusCode(422, "Failed, producer already exists in the database!");
+
+            if (!guitarService.GuitarExists(updatedGuitar.Id))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var checkCorrectness = guitarService.CheckIfProducerAndTypeAndStringsExists(updatedGuitar.ProducerId, updatedGuitar.StringsId, updatedGuitar.TypeId);
+
+            if (checkCorrectness == false)
+                return BadRequest("Bad ProducerId or TypeId or StringsId.");
+
+            var guitar = new Guitar() { Id = updatedGuitar.Id, Name = updatedGuitar.Name, TypeId = updatedGuitar.TypeId, ProducerId = updatedGuitar.ProducerId, StringsId = updatedGuitar.StringsId, ReleaseDate = updatedGuitar.ReleaseDate };
+
+            if (!guitarService.UpdateGuitar(guitar))
+                return StatusCode(500, ModelState);
+
+            return NoContent();
+        }
     }
 }

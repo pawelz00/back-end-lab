@@ -42,5 +42,13 @@ namespace guitarapi.Services
         {
             return _context.Producers.Any(p => p.Id == id);
         }
+
+        public bool UpdateProducer(Producer producer)
+        {
+            _context.Update(producer);
+            if (_context.SaveChanges() > 0)
+                return true;
+            return false;
+        }
     }
 }
