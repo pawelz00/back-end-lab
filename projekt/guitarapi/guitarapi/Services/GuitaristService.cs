@@ -73,6 +73,19 @@ namespace guitarapi.Services
             }
             return false;
         }
-        
+
+        public bool DeleteGuitarFromGuitarist(AddGuitarToGuitaristDto dto)
+        {
+            using (var db = _context)
+            {
+                var guitaristToUpdate = db.Guitarists.Include(g => g.GuitaristsGuitars).Single(u => u.Id == dto.Id);
+                var guitar = db.Guitars.Single(u => u.Id == dto.guitarId);
+
+                guitaristToUpdate.GuitaristsGuitars.Remove(guitaristToUpdate.GuitaristsGuitars.Where(x => x.GuitarId == guitar.Id).FirstOrDefault());
+                if(db.SaveChanges() > 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }

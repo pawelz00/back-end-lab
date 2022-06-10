@@ -12,7 +12,7 @@ using guitarapi.Data;
 namespace guitarapi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220607143240_initial")]
+    [Migration("20220610111606_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

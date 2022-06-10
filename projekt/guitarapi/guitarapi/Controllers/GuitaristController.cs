@@ -118,5 +118,29 @@ namespace guitarapi.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("api/guitarists/deleteguitar")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteGuitarFromGuitarist([FromBody] AddGuitarToGuitaristDto updatedGuitarist)
+        {
+            if (updatedGuitarist == null)
+                return BadRequest(ModelState);
+
+            if (!guitaristService.GuitaristExists(updatedGuitarist.Id))
+                return NotFound("Guitarist of that ID not found.");
+
+            if (!guitarService.GuitarExists(updatedGuitarist.guitarId))
+                return NotFound("Guitar of that ID not found.");
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!guitaristService.DeleteGuitarFromGuitarist(updatedGuitarist))
+                return StatusCode(500, ModelState);
+
+            return NoContent();
+        }
     }
 }

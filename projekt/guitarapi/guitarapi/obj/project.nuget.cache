@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "358s5/rdIbsQKKWkcSs7q1iJlTmyP0kpBKUuECHZ+UWxn9OnDUiuvnEzxK6B5gRfbVx+MKoNj7FaHcRCGwwnGQ==",
+  "dgSpecHash": "SXf/5iGSp1bKhUcAZ7i1r7YzQxJNfZDZVS4nnaMJybz09nKwcEqI9F5DUzBWF9zSyCb+NwclCNuHozHHBBlcMQ==",
   "success": true,
-  "projectFilePath": "H:\\Pobrane\\Studia\\Programowanie aplikacji back-endowych\\projekt\\back-end-lab\\projekt\\guitarapi\\guitarapi\\guitarapi.csproj",
+  "projectFilePath": "C:\\Users\\pawet\\Desktop\\backend\\back-end-lab\\projekt\\guitarapi\\guitarapi\\guitarapi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pawet\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\pawet\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

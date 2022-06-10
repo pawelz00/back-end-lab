@@ -11,5 +11,6 @@ namespace guitarapi.Services
         bool CreateGuitarist(int guitarId, Guitarist guitarist);
         bool DeleteGuitarist(Guitarist guitarist);
         bool AddGuitarToGuitarist(AddGuitarToGuitaristDto guitarist);
+        bool DeleteGuitarFromGuitarist(AddGuitarToGuitaristDto guitarist);
     }
 }

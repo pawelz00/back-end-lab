@@ -2064,11 +2064,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\Pobrane\\Studia\\Programowanie aplikacji back-endowych\\projekt\\back-end-lab\\projekt\\guitarapi\\guitarapi\\guitarapi.csproj",
+      "projectUniqueName": "C:\\Users\\pawet\\Desktop\\backend\\back-end-lab\\projekt\\guitarapi\\guitarapi\\guitarapi.csproj",
       "projectName": "guitarapi",
-      "projectPath": "H:\\Pobrane\\Studia\\Programowanie aplikacji back-endowych\\projekt\\back-end-lab\\projekt\\guitarapi\\guitarapi\\guitarapi.csproj",
+      "projectPath": "C:\\Users\\pawet\\Desktop\\backend\\back-end-lab\\projekt\\guitarapi\\guitarapi\\guitarapi.csproj",
       "packagesPath": "C:\\Users\\pawet\\.nuget\\packages\\",
-      "outputPath": "H:\\Pobrane\\Studia\\Programowanie aplikacji back-endowych\\projekt\\back-end-lab\\projekt\\guitarapi\\guitarapi\\obj\\",
+      "outputPath": "C:\\Users\\pawet\\Desktop\\backend\\back-end-lab\\projekt\\guitarapi\\guitarapi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
