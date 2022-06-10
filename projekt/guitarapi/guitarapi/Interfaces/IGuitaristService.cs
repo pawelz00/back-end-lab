@@ -1,4 +1,5 @@
-﻿using guitarapi.Models;
+﻿using guitarapi.Dto;
+using guitarapi.Models;
 
 namespace guitarapi.Services
 {
@@ -9,5 +10,6 @@ namespace guitarapi.Services
         bool GuitaristExists(int id);
         bool CreateGuitarist(int guitarId, Guitarist guitarist);
         bool DeleteGuitarist(Guitarist guitarist);
+        bool AddGuitarToGuitarist(AddGuitarToGuitaristDto guitarist);
     }
 }

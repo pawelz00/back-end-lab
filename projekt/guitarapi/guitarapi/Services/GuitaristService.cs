@@ -1,4 +1,5 @@
 ﻿using guitarapi.Data;
+using guitarapi.Dto;
 using guitarapi.Models;
 
 namespace guitarapi.Services
@@ -51,5 +52,27 @@ namespace guitarapi.Services
         {
             return _context.Guitarists.Any(g => g.Id == id);
         }
+
+        public bool AddGuitarToGuitarist(AddGuitarToGuitaristDto dto)
+        {
+            using (var db = _context)
+            {
+                var guitarist = db.Guitarists
+                    .Include(g => g.GuitaristsGuitars)
+                    .Single(g => g.Id == dto.Id);
+                var newGuitar = db.Guitars
+                    .Single(g => g.Id == dto.guitarId);
+
+                guitarist.GuitaristsGuitars.Add(new GuitaristGuitar
+                {
+                    Guitarist = guitarist,
+                    Guitar = newGuitar
+                });
+                if (db.SaveChanges() > 0)
+                    return true;
+            }
+            return false;
+        }
+        
     }
 }
